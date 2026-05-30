@@ -1,13 +1,24 @@
+import { useSearchParams } from 'react-router-dom';
+
 function HeroesFinder() {
-  // TODO Iteration 4 | Buscador
-  //
-  // Renderiza un input de texto controlado para buscar heroes por nombre.
-  // El valor del buscador debe estar sincronizado con la query string de la URL
-  // (parametro `name`): al escribir en el input debes actualizar ese parametro, y
-  // el valor mostrado en el input debe leerse tambien desde la URL.
+  const [searchParams, setSearchParams] = useSearchParams();
+  const name = searchParams.get('name') ?? '';
+
+  const handleSearchChange = (event) => {
+    setSearchParams({ name: event.target.value });
+  };
 
   return (
-    <p className="text-muted">TODO: buscador (Iteration 4)</p>
+    <div className="input-group">
+      <span className="input-group-text"><i className="fa fa-search"></i></span>
+      <input
+        type="text"
+        value={name}
+        className="form-control"
+        placeholder="Buscar heroe por nombre..."
+        onChange={handleSearchChange}
+      />
+    </div>
   );
 }
 
