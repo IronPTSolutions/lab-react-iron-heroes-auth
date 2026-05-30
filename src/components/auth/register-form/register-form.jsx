@@ -3,25 +3,52 @@ import { useNavigate } from "react-router-dom";
 import * as AuthService from "../../../services/auth-service";
 
 function RegisterForm() {
-  // TODO Iteration 1:
-  // 1. Inicializa react-hook-form:
-  //      const { register, handleSubmit, setError, formState: { errors, isValid } } = useForm({ mode: 'all' });
-  // 2. Obten navigate con useNavigate().
-  // 3. Crea handleRegister(user):
-  //      - llama a AuthService.register(user) (POST /users)
-  //      - en exito: navigate('/login')
-  //      - en error 400: recorre error.response.data.errors y llama a
-  //        setError(inputName, { type: 'custom', message: ... }) para cada campo
-  // 4. Renderiza un <form onSubmit={handleSubmit(handleRegister)}> con inputs:
-  //      name (required), email (type email, required),
-  //      username (required), password (type password, required)
-  //    Usa los input-group de bootstrap con iconos fa-* y muestra errors.<campo>.message
-  //    en un <div className="invalid-feedback">. Boton submit deshabilitado si !isValid.
+  const { register, handleSubmit, setError, formState: { errors, isValid } } = useForm({ mode: 'all' });
+  const navigate = useNavigate();
+
+  const handleRegister = async (user) => {
+    try {
+      await AuthService.register(user);
+      navigate('/login');
+    } catch (error) {
+      console.error(error);
+      if (error.response?.status === 400) {
+        Object.keys(error.response.data.errors).forEach((inputName) => {
+          setError(inputName, { type: 'custom', message: error.response.data.errors[inputName] });
+        });
+      }
+    }
+  };
 
   return (
-    <form>
-      {/* TODO: construye el formulario de registro aqui */}
-      <p className="text-muted">TODO: Register form (Iteration 1)</p>
+    <form onSubmit={handleSubmit(handleRegister)}>
+      <div className="input-group mb-1">
+        <span className="input-group-text"><i className="fa fa-user fa-fw"></i></span>
+        <input type="text" {...register('name', { required: 'El nombre es obligatorio' })} className={`form-control ${errors.name ? 'is-invalid' : ''}`} placeholder="Nombre" />
+        {errors.name && (<div className="invalid-feedback">{errors.name.message}</div>)}
+      </div>
+
+      <div className="input-group mb-1">
+        <span className="input-group-text"><i className="fa fa-envelope-o fa-fw"></i></span>
+        <input type="email" {...register('email', { required: 'El email es obligatorio' })} className={`form-control ${errors.email ? 'is-invalid' : ''}`} placeholder="user@example.org" />
+        {errors.email && (<div className="invalid-feedback">{errors.email.message}</div>)}
+      </div>
+
+      <div className="input-group mb-1">
+        <span className="input-group-text"><i className="fa fa-tag fa-fw"></i></span>
+        <input type="text" {...register('username', { required: 'El username es obligatorio' })} className={`form-control ${errors.username ? 'is-invalid' : ''}`} placeholder="username" />
+        {errors.username && (<div className="invalid-feedback">{errors.username.message}</div>)}
+      </div>
+
+      <div className="input-group mb-2">
+        <span className="input-group-text"><i className="fa fa-lock fa-fw"></i></span>
+        <input type="password" {...register('password', { required: 'La contrasena es obligatoria' })} className={`form-control ${errors.password ? 'is-invalid' : ''}`} placeholder="***********" />
+        {errors.password && (<div className="invalid-feedback">{errors.password.message}</div>)}
+      </div>
+
+      <div className="d-grid gap-2">
+        <button className="btn btn-primary" type="submit" disabled={!isValid}>Registrarse</button>
+      </div>
     </form>
   );
 }

@@ -1,13 +1,11 @@
-// import HeroesItem from "../heroes-item/heroes-item";
+import HeroesItem from "../heroes-item/heroes-item";
 
-function HeroesList({ heroes = [] }) {
-  // TODO Iteration 3:
-  // Recorre `heroes` con .map() y renderiza un <HeroesItem key={hero.id} hero={hero} />
-  // por cada heroe, dentro del contenedor flex de abajo.
-
+function HeroesList({ heroes = [], className = '' }) {
   return (
-    <div className="d-flex flex-wrap gap-2 mt-2">
-      {/* TODO: renderiza un HeroesItem por cada heroe */}
+    <div className={`d-flex flex-wrap gap-2 mt-2 ${className}`}>
+      {heroes.map((hero) => (
+        <HeroesItem key={hero.id} hero={hero} />
+      ))}
     </div>
   );
 }

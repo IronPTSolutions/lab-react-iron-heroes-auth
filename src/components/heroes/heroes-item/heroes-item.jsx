@@ -1,18 +1,16 @@
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-function HeroesItem({ hero }) {
-  // TODO Iteration 3:
-  // Renderiza una card de bootstrap con la imagen (hero.image), el nombre (hero.name)
-  // y el alias (hero.alias). Envuelve la card en un <Link to={`/heroes/${hero.id}`}>
-  // para poder navegar al detalle (Iteration 4).
-
+function HeroesItem({ hero: { id, name, alias, image } }) {
   return (
-    <div className="card" style={{ width: '12rem' }}>
-      {/* TODO: imagen + nombre + alias + Link al detalle */}
-      <div className="card-body">
-        <h6 className="card-title">TODO: hero</h6>
+    <Link to={`/heroes/${id}`} className="text-decoration-none">
+      <div className="card text-bg-dark" style={{ width: '12rem' }}>
+        <img src={image} className="card-img" alt={name} style={{ height: '16rem', objectFit: 'cover' }} />
+        <div className="card-img-overlay d-flex flex-column justify-content-end">
+          <h6 className="card-title m-0">{name}</h6>
+          <small>{alias}</small>
+        </div>
       </div>
-    </div>
+    </Link>
   );
 }
 
