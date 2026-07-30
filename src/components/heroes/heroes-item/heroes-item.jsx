@@ -1,12 +1,14 @@
-function HeroesItem({ hero }) {
-  // TODO Iteration 4 | Tarjeta de heroe
-  //
-  // Recibe un heroe por props y muestralo en una tarjeta (card) de Bootstrap con
-  // su imagen, su nombre y su alias. La tarjeta entera debe ser un enlace que lleve
-  // a la pagina de detalle de ese heroe (ruta /heroes/:id).
+import { Link } from 'react-router-dom';
 
+function HeroesItem({ hero }) {
   return (
-    <p className="text-muted">TODO: tarjeta de heroe (Iteration 4)</p>
+    <Link to={`/heroes/${hero.id}`} className="card text-decoration-none text-reset h-100">
+      <img src={hero.image} className="card-img-top" alt={hero.name} />
+      <div className="card-body">
+        <h5 className="card-title">{hero.name}</h5>
+        <p className="card-text text-muted">{hero.alias}</p>
+      </div>
+    </Link>
   );
 }
 
