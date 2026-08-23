@@ -1,15 +1,21 @@
-// TODO Iteration 1 | Capa de servicios de heroes
-//
-// Esta capa habla con la API simulada usando axios. La API esta disponible en
-// la URL base: https://api.ironheroes.mock.org
-//
-// Crea una instancia de axios apuntando a esa URL base y exporta dos funciones
-// asincronas:
-//
-//   - listHeroes({ name }): hace un GET al endpoint /heroes. Si recibe un `name`,
-//       debe enviarlo como query param para filtrar la busqueda (la API filtra
-//       por nombre o alias). Devuelve el array de heroes que responde la API.
-//
-//   - getHero(id): hace un GET al endpoint /heroes/:id y devuelve el heroe.
-//
-// Recuerda exportar cada operacion para poder importarlas desde las paginas.
+import axios from "axios";
+import { baseMockDomain } from "../mock/config";
+
+const heroesApi = axios.create({
+  baseURL: baseMockDomain,
+});
+
+export const listHeroes = async ({ name } = {}) => {
+  const response = await heroesApi.get("/heroes", {
+    params: name ? { name } : {},
+  });
+
+  return response.data;
+};
+
+export const getHero = async (id) => {
+  const response = await heroesApi.get(`/heroes/${id}`);
+  return response.data;
+};
+
+export default { listHeroes, getHero };

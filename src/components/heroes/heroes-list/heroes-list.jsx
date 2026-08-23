@@ -1,12 +1,14 @@
-function HeroesList({ heroes = [] }) {
-  // TODO Iteration 4 | Lista de heroes
-  //
-  // Recibe por props un array de heroes y renderiza un componente HeroesItem por
-  // cada uno (acuerdate de la prop `key`). Colocalos en un contenedor que los
-  // muestre como una rejilla o lista de tarjetas.
+import HeroesItem from "../heroes-item/heroes-item";
 
+function HeroesList({ heroes = [] }) {
   return (
-    <p className="text-muted">TODO: lista de heroes (Iteration 4)</p>
+    <div className="row g-4">
+      {heroes.map((hero) => (
+        <div className="col-md-6 col-lg-4" key={hero.id}>
+          <HeroesItem hero={hero} />
+        </div>
+      ))}
+    </div>
   );
 }
 
