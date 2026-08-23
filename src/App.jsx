@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { Navbar } from "./components/ui";
 import {
   HomePage,
@@ -7,6 +7,12 @@ import {
   HeroesPage,
   HeroDetailPage,
 } from "./pages";
+
+function PrivateRoute({ children }) {
+  const isAuthenticated = Boolean(localStorage.getItem("token"));
+
+  return isAuthenticated ? children : <Navigate to="/login" replace />;
+}
 
 function App() {
   return (
@@ -17,8 +23,22 @@ function App() {
         <Route index element={<HomePage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/heroes" element={<HeroesPage />} />
-        <Route path="/heroes/:id" element={<HeroDetailPage />} />
+        <Route
+          path="/heroes"
+          element={
+            <PrivateRoute>
+              <HeroesPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/heroes/:id"
+          element={
+            <PrivateRoute>
+              <HeroDetailPage />
+            </PrivateRoute>
+          }
+        />
       </Routes>
     </>
   );
