@@ -6,7 +6,6 @@ const users = self.localStorage.getItem(LS_USERS_KEY)
   ? JSON.parse(self.localStorage.getItem(LS_USERS_KEY))
   : [];
 
-// POST /users -> register a new user
 export const handleUserRegister = http.post(`${baseMockDomain}/users`, async ({ request }) => {
   const user = await request.json();
   console.log('mock user register received', user);
@@ -36,7 +35,6 @@ export const handleUserRegister = http.post(`${baseMockDomain}/users`, async ({ 
   return HttpResponse.json(safeUser, { status: 201 });
 });
 
-// POST /login -> validate credentials, return { user, token }
 export const handleLogin = http.post(`${baseMockDomain}/login`, async ({ request }) => {
   const { username, password } = await request.json();
 
