@@ -13,3 +13,27 @@
 //   - getHero(id): hace un GET al endpoint /heroes/:id y devuelve el heroe.
 //
 // Recuerda exportar cada operacion para poder importarlas desde las paginas.
+import axios from "axios";
+
+const http = axios.create({
+    baseURL: "https://api.ironheroes.mock.org"
+});
+
+export async function listHeroes(name) {
+   let url = "/heroes";
+   if (name) {
+    url += "?name=" + name;
+   }
+   const response = await http.get(url);
+
+   return response.data;
+}
+
+
+export async function getHero(id) {
+
+    const response = await http.get(
+        "/heroes/" + id
+    );
+    return response.data;
+}
